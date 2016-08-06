@@ -1,7 +1,6 @@
 from django.db import models
    
 class Roles(models.Model):
-    id_rol=models.IntegerField()
     
     nombre= models.CharField(max_length=100)
     comprar=models.CharField(max_length=100)
@@ -14,7 +13,6 @@ class Roles(models.Model):
     
     
 class Usuarios(models.Model):
-    id_question=models.CharField(max_length=100)
        
     nombre= models.CharField(max_length=100)
     documeto=models.IntegerField()
@@ -26,11 +24,10 @@ class Usuarios(models.Model):
     codigo_postal=models.IntegerField()
     password=models.CharField(max_length=100)
     
-    id_rol=models.ForeignKey(Roles,on_delete=models.CASCADE)#llave foranea del rol
+    rol=models.ForeignKey(Roles,on_delete=models.CASCADE)#llave foranea del rol
     
     
 class Tipos_Productos(models.Model):
-    id_tipo=models.IntegerField()
     
     nombre= models.CharField(max_length=100)
     descripcion=models.CharField(max_length=100)
@@ -40,7 +37,6 @@ class Tipos_Productos(models.Model):
 
 
 class Ofertas(models.Model):
-    id_oferta=models.IntegerField()
     
     tipo=models.CharField(max_length=100)
     valor_descuento=models.IntegerField()
@@ -49,23 +45,21 @@ class Ofertas(models.Model):
     duracion=models.CharField(max_length=100)
 
 class Productos(models.Model):
-    id_producto=models.IntegerField()
     
     nombre=models.CharField(max_length=100)
     precio=models.IntegerField()
     cantidad=models.IntegerField()
     propietario=models.CharField(max_length=100)
     
-    id_oferta=models.ForeignKey(Ofertas, on_delete=models.CASCADE)
-    id_tipo=models.ForeignKey(Tipos_Productos, on_delete=models.CASCADE)
+    oferta=models.ForeignKey(Ofertas, on_delete=models.CASCADE)
+    tipo=models.ForeignKey(Tipos_Productos, on_delete=models.CASCADE)
  
  
     
 class Imagen_Producto(models.Model):
-    id_imagen=models.IntegerField()
     imagen=models.ImageField(upload_to='/imagenes')
     
-    id_producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
+    producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
     
 #class preguntas_productos(models.Model):
 #    id_pregunta=models.IntegerField()
