@@ -32,8 +32,6 @@ class Tipos_Productos(models.Model):
     nombre= models.CharField(max_length=100)
     descripcion=models.CharField(max_length=100)
     
-# id_producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
-# PROBLEMA NO ENCUENTRA la tabla productos por que no se ha creado
 
 
 class Ofertas(models.Model):
@@ -61,10 +59,50 @@ class Imagen_Producto(models.Model):
     
     producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
     
-#class preguntas_productos(models.Model):
-#    id_pregunta=models.IntegerField()
-#    id_producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
-#    pregunta=models.CharField(max_length=100)
-#    respuesta=models.CharField(max_length=100)
-#   id_usuario_remitente=
-#    id_usuario_destinatario=
+class Preguntas_Productos(models.Model):
+    id_pregunta=models.IntegerField()
+    id_producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
+    pregunta=models.CharField(max_length=100)
+    respuesta=models.CharField(max_length=100)
+    id_usuarioemitente=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    id_usuario_destinatario=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    
+    
+class Noticias(models.Model):
+    titulo_noticia=models.CharField(max_length=100)
+    contenido_noticia=models.CharField(max_length=500)
+    
+    propietario=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+
+
+class Logs(models.Model):
+    tipo=models.CharField(max_length=100)
+    informacion=models.CharField(max_length=100)
+    
+    
+
+class Solicitudes(models.Model):
+    id_usuario_destinatario=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    id_usuario_remitente=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    
+
+
+class Chat(models.Model):
+    pregunta=models.CharField(max_length=200)
+    respuesta=models.CharField(max_length=200)
+    id_solicitud=models.ForeignKey(Solicitudes, on_delete=models.CASCADE)
+    
+class Carrito_Compra(models.Model):
+    
+    
+    id_usuario=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    id_producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
+    cantidad=models.IntegerField()
+    
+class Factura(models.Model):
+    valor_total=models.IntegerField()
+    estado=models.CharField(max_length=200)
+    direccion_envio=models.CharField(max_length=200)
+    
+    id_carrito=models.ForeignKey(Carrito_Compra, on_delete=models.CASCADE)
+    id_transportador=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
