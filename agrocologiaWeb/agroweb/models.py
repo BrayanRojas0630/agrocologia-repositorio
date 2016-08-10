@@ -11,6 +11,8 @@ class Roles(models.Model):
     publicar_noticias=models.CharField(max_length=100)
     consultar_historial=models.CharField(max_length=100)
     
+    def __str__(self):
+        return self.nombre
     
 class Usuarios(models.Model):
        
@@ -26,14 +28,16 @@ class Usuarios(models.Model):
     
     rol=models.ForeignKey(Roles,on_delete=models.CASCADE)#llave foranea del rol
     
+    def __str__(self):
+        return self.nombre
     
 class Tipos_Productos(models.Model):
-    
     nombre= models.CharField(max_length=100)
     descripcion=models.CharField(max_length=100)
     
-
-
+    def __str__(self):
+        return self.nombre
+    
 class Ofertas(models.Model):
     
     tipo=models.CharField(max_length=100)
@@ -41,7 +45,10 @@ class Ofertas(models.Model):
     description=models.CharField(max_length=100)
     fecha_vencimiento=models.DateField()
     duracion=models.CharField(max_length=100)
-
+    
+    def __str__(self):
+        return self.tipo
+    
 class Productos(models.Model):
     
     nombre=models.CharField(max_length=100)
@@ -52,6 +59,8 @@ class Productos(models.Model):
     oferta=models.ForeignKey(Ofertas, on_delete=models.CASCADE)
     tipo=models.ForeignKey(Tipos_Productos, on_delete=models.CASCADE)
  
+    def __str__(self):
+        return self.nombre
  
     
 class Imagen_Producto(models.Model):
@@ -59,50 +68,68 @@ class Imagen_Producto(models.Model):
     
     producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
     
+    def __str__(self):
+        return self.imagen
+    
 class Preguntas_Productos(models.Model):
-    id_pregunta=models.IntegerField()
-    id_producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
+    
+    producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
     pregunta=models.CharField(max_length=100)
     respuesta=models.CharField(max_length=100)
-    id_usuarioemitente=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
-    id_usuario_destinatario=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    usuario_remitente=models.ForeignKey(Usuarios, related_name="usuario_remitente_preguntas_productos", on_delete=models.CASCADE)
+    usuario_destinatario=models.ForeignKey(Usuarios, related_name="usuario_destinatario_preguntas_productos",on_delete=models.CASCADE)
     
+    def __str__(self):
+        return self.pregunta
     
 class Noticias(models.Model):
     titulo_noticia=models.CharField(max_length=100)
     contenido_noticia=models.CharField(max_length=500)
     
     propietario=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
-
-
+    
+    def __str__(self):
+        return self.titulo_noticia
+    
 class Logs(models.Model):
     tipo=models.CharField(max_length=100)
     informacion=models.CharField(max_length=100)
     
+    def __str__(self):
+        return self.tipo
     
-
 class Solicitudes(models.Model):
-    id_usuario_destinatario=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
-    id_usuario_remitente=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    usuario_destinatario=models.ForeignKey(Usuarios, related_name="usuario_destinatario_solicitudes", on_delete=models.CASCADE)
+    usuario_remitente=models.ForeignKey(Usuarios, related_name="usuario_remitente_solicitudes", on_delete=models.CASCADE)
     
-
-
+    def __str__(self):
+        return self.usuario_destinatario
+    
 class Chat(models.Model):
     pregunta=models.CharField(max_length=200)
     respuesta=models.CharField(max_length=200)
-    id_solicitud=models.ForeignKey(Solicitudes, on_delete=models.CASCADE)
+    solicitud=models.ForeignKey(Solicitudes, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.pregunta
     
 class Carrito_Compra(models.Model):
-    
-    
-    id_usuario=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
-    id_producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
+
+    usuario=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    producto=models.ForeignKey(Productos, on_delete=models.CASCADE)
     cantidad=models.IntegerField()
+    
+    def __str__(self):
+        return self.usuario
     
 class Factura(models.Model):
     valor_total=models.IntegerField()
     estado=models.CharField(max_length=200)
     direccion_envio=models.CharField(max_length=200)
     
-    id_carrito=models.ForeignKey(Carrito_Compra, on_delete=models.CASCADE)
-    id_transportador=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    carrito=models.ForeignKey(Carrito_Compra, on_delete=models.CASCADE)
+    transportador=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.valor_total
+    
