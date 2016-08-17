@@ -1,3 +1,5 @@
+#                                        @author: Johan Sanchez (SZJohanR4)
+#
 from django.db import models
    
 class Roles(models.Model):
@@ -58,7 +60,9 @@ class Productos(models.Model):
     
     oferta=models.ForeignKey(Ofertas, on_delete=models.CASCADE)
     tipo=models.ForeignKey(Tipos_Productos, on_delete=models.CASCADE)
- 
+    
+    usuarioFK=models.ManyToManyField(Usuarios)
+    
     def __str__(self):
         return self.nombre
  
@@ -130,6 +134,8 @@ class Factura(models.Model):
     carrito=models.ForeignKey(Carrito_Compra, on_delete=models.CASCADE)
     transportador=models.ForeignKey(Usuarios, on_delete=models.CASCADE)
     
+    productosFK=models.ManyToManyField(Productos)
+    transportadorFK=models.ManyToManyField(Usuarios, related_name="transportador_mxm",)
     def __str__(self):
         return self.valor_total
     
