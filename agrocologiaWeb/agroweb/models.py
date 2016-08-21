@@ -16,6 +16,45 @@ class Roles(models.Model):
     def __str__(self):
         return self.nombre
     
+    def insert(nombre_entrada,comprar_entrada,vender_entrada,solicitud_entrada,contestar_solicitud_entrada,cambiar_estado_entrada,publicar_noticias_entrada,consultar_historial_entrada):
+        r=Roles()
+        r.nombre=nombre_entrada
+        r.comprar=comprar_entrada
+        r.vender=vender_entrada
+        r.solicitud=solicitud_entrada
+        r.contestar_solicitud=contestar_solicitud_entrada
+        r.cambiar_estado=cambiar_estado_entrada
+        r.publicar_noticias=publicar_noticias_entrada
+        r.consultar_historial=consultar_historial_entrada
+        r.save()
+        return "Ha insertado el Rol:"+ nombre_entrada +" exitosamente."
+    
+    def update(id_actualizar, nombre_actualizar,comprar_actualizar,vender_actualizar,solicitud_actualizar,contestar_solicitud_actualizar,cambiar_estado_actualizar,publicar_noticias_actualizar,consultar_historial_actualizar):
+        r=Roles()
+        r.id=id_actualizar
+        r.nombre=nombre_actualizar
+        r.comprar=comprar_actualizar
+        r.vender=vender_actualizar
+        r.solicitud=solicitud_actualizar
+        r.contestar_solicitud=contestar_solicitud_actualizar
+        r.cambiar_estado=cambiar_estado_actualizar
+        r.publicar_noticias=publicar_noticias_actualizar
+        r.consultar_historial=consultar_historial_actualizar
+        r.save()
+        
+        return "ha actualizado exitosamente"
+    
+    def select(nombre_entrada):
+        r=Roles()
+        return Roles.objects.filter(nombre=nombre_entrada)
+        
+        
+    def delete(nombre_delete):
+        r=Roles.objects.get(nombre=nombre_delete)
+        r.delete()
+        
+        return "Ha borrado a "
+            
 class Usuarios(models.Model):
        
     nombre= models.CharField(max_length=100)
