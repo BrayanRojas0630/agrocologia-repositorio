@@ -27,7 +27,7 @@ class Roles(models.Model):
         r.publicar_noticias=publicar_noticias_entrada
         r.consultar_historial=consultar_historial_entrada
         r.save()
-        return "Ha insertado el Rol:"+ nombre_entrada +" exitosamente."
+        return "Ha insertado el Rol: "+ nombre_entrada +" exitosamente."
     
     def update(id_actualizar, nombre_actualizar,comprar_actualizar,vender_actualizar,solicitud_actualizar,contestar_solicitud_actualizar,cambiar_estado_actualizar,publicar_noticias_actualizar,consultar_historial_actualizar):
         r=Roles()
@@ -45,15 +45,13 @@ class Roles(models.Model):
         return "ha actualizado exitosamente"
     
     def select(nombre_entrada):
-        r=Roles()
-        return Roles.objects.filter(nombre=nombre_entrada)
-        
-        
+        return Roles.objects.filter(nombre=nombre_entrada).values('id','nombre','comprar','vender','solicitud','contestar_solicitud','cambiar_estado','publicar_noticias','consultar_historial')
+
     def delete(nombre_delete):
-        r=Roles.objects.get(nombre=nombre_delete)
+        r=Roles.objects.filter(nombre=nombre_delete)
         r.delete()
         
-        return "Ha borrado a "
+        return "Ha borrado a: "+ nombre_delete
             
 class Usuarios(models.Model):
        
