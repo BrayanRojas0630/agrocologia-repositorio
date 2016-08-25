@@ -1,4 +1,5 @@
 
+
 from django.db import models
    
 class Roles(models.Model):
@@ -535,5 +536,4 @@ class Factura(models.Model):
         r.delete()
 
         return "Ha borrado a: "+ id_borrar
-
     
